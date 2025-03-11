@@ -29,7 +29,8 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            btnHesapla = new Button();
+            btnDersHesapla = new Button();
+            btnTranscriptHesapla = new Button();
             cmbFinal = new ComboBox();
             cmbAraSinav = new ComboBox();
             lblGNO = new Label();
@@ -43,7 +44,8 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(btnHesapla);
+            groupBox1.Controls.Add(btnDersHesapla);
+            groupBox1.Controls.Add(btnTranscriptHesapla);
             groupBox1.Controls.Add(cmbFinal);
             groupBox1.Controls.Add(cmbAraSinav);
             groupBox1.Controls.Add(lblGNO);
@@ -57,15 +59,25 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             // 
-            // btnHesapla
+            // btnDersHesapla
             // 
-            btnHesapla.Location = new Point(698, 212);
-            btnHesapla.Name = "btnHesapla";
-            btnHesapla.Size = new Size(122, 80);
-            btnHesapla.TabIndex = 3;
-            btnHesapla.Text = "Transcript Hesapla";
-            btnHesapla.UseVisualStyleBackColor = true;
-            btnHesapla.Click += btnHesapla_Click;
+            btnDersHesapla.Location = new Point(659, 212);
+            btnDersHesapla.Name = "btnDersHesapla";
+            btnDersHesapla.Size = new Size(195, 33);
+            btnDersHesapla.TabIndex = 4;
+            btnDersHesapla.Text = "Ders Notu Kaydet";
+            btnDersHesapla.UseVisualStyleBackColor = true;
+            btnDersHesapla.Click += btnDersHesapla_Click;
+            // 
+            // btnTranscriptHesapla
+            // 
+            btnTranscriptHesapla.Location = new Point(694, 273);
+            btnTranscriptHesapla.Name = "btnTranscriptHesapla";
+            btnTranscriptHesapla.Size = new Size(122, 80);
+            btnTranscriptHesapla.TabIndex = 3;
+            btnTranscriptHesapla.Text = "Transcript Hesapla";
+            btnTranscriptHesapla.UseVisualStyleBackColor = true;
+            btnTranscriptHesapla.Click += btnHesapla_Click;
             // 
             // cmbFinal
             // 
@@ -75,7 +87,6 @@
             cmbFinal.Name = "cmbFinal";
             cmbFinal.Size = new Size(151, 28);
             cmbFinal.TabIndex = 2;
-            cmbFinal.SelectedIndexChanged += cmbFinal_SelectedIndexChanged;
             // 
             // cmbAraSinav
             // 
@@ -85,7 +96,6 @@
             cmbAraSinav.Name = "cmbAraSinav";
             cmbAraSinav.Size = new Size(151, 28);
             cmbAraSinav.TabIndex = 2;
-            cmbAraSinav.SelectedIndexChanged += cmbAraSinav_SelectedIndexChanged;
             // 
             // lblGNO
             // 
@@ -153,7 +163,7 @@
         #endregion
 
         private GroupBox groupBox1;
-        private Button btnHesapla;
+        private Button btnTranscriptHesapla;
         private ComboBox cmbFinal;
         private ComboBox cmbAraSinav;
         private Label lblGNO;
@@ -161,5 +171,6 @@
         private Label label3;
         private Label lblSecilen;
         private DataGridView dgvDersler;
+        private Button btnDersHesapla;
     }
 }
