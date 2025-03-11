@@ -21,14 +21,18 @@ namespace TranscriptHesaplama.UI
         public FRMTranscriptEkrani()
         {
             InitializeComponent();
-            dgvDersler.DataSource = secilenDersler;
-            dgvDersler.Columns[3].Visible = dgvDersler.Columns[4].Visible = dgvDersler.Columns[5].Visible = false;
+            DersleriGetir();
             NotlariEkle();
         }
+
+        private void DersleriGetir()
+        {
+            dgvDersler.DataSource = null;
+            dgvDersler.DataSource = secilenDersler;
+        }
+
         public void NotlariEkle()
         {
-            cmbAraSinav.Items.Add("Seçiniz");
-            cmbFinal.Items.Add("Seçiniz");
             cmbAraSinav.Items.Add("Seçiniz");
             cmbFinal.Items.Add("Seçiniz");
             for (int i = 0; i <= 100; i++)
@@ -36,8 +40,7 @@ namespace TranscriptHesaplama.UI
                 cmbAraSinav.Items.Add(i);
                 cmbFinal.Items.Add(i);
             }
-            //Program açýldýðýnda 
-            cmbAraSinav.SelectedIndex = cmbFinal.SelectedIndex = 1;
+            cmbAraSinav.SelectedIndex = cmbFinal.SelectedIndex = 0;
         }
         public void HarfNotunuAta(Ders ders)
         {
@@ -73,26 +76,17 @@ namespace TranscriptHesaplama.UI
 
         private void dgvDersler_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            //Satýrlarda hücreye basýnca çökmesin diye grid'in selectionmode'unu FullRowSelect yaparýz.
-            lblSecilen.Text = "SEÇÝLEN DERS:";
+            lblSecilen.Text = "Seçilen Ders:";
             secilenDers = (Ders)dgvDersler.SelectedRows[0].DataBoundItem;
             lblSecilen.Text += " " + secilenDers.Kod + " " + secilenDers.Ad + " " + secilenDers.Kredi;
         }
 
         private void cmbAraSinav_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-
-            //Bakalým sonra
-            //if (cmbAraSinav.SelectedIndex == 0 && cmbAraSinav.DroppedDown)
-            //{
-            //    MessageBox.Show("Lütfen bir seçenek seçin."); cmbAraSinav.SelectedIndex = -1; // Seçimi iptal et }
-
-            //}
-            //her zaman arasinav not deðiþtiði zaman burasý çalýþýr
-
             if (cmbAraSinav.Items.Contains("Seçiniz"))
+            {
                 cmbAraSinav.Items.RemoveAt(0);
+            }
 
             if (secilenDers == null && cmbAraSinav.Items.Count != 102)
             {
@@ -106,14 +100,17 @@ namespace TranscriptHesaplama.UI
             }
 
             if (cmbAraSinav.Items.Count != 102)
+            {
                 secilenDers.Vize = Convert.ToUInt32(cmbAraSinav.SelectedItem);
-
+            }
         }
 
         private void cmbFinal_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbFinal.Items.Contains("Seçiniz"))
+            {
                 cmbFinal.Items.RemoveAt(0);
+            }
 
             if (secilenDers == null && cmbFinal.Items.Count != 102)
             {
@@ -127,27 +124,40 @@ namespace TranscriptHesaplama.UI
             }
 
             if (cmbFinal.Items.Count != 102)
+            {
                 secilenDers.Final = Convert.ToUInt32(cmbFinal.SelectedItem);
-
-            //her zaman final not deðiþtiði zaman burasý çalýþýr
+            }
         }
 
         private void btnHesapla_Click(object sender, EventArgs e)
         {
-            //butona týklandýðý zaman çalýþacak olan metot.
             double toplam = 0;
             uint toplamKredi = 0;
             foreach (var ders in secilenDersler)
             {
-                HarfNotunuAta(ders);
-
                 toplam += (((int)ders.HarfNotu) / 10.0) * ders.Kredi;
-                toplamKredi += (secilenDers.Kredi);
+                toplamKredi += (ders.Kredi);
             }
             toplam /= toplamKredi;
-            lblGNO.Text = "GNO: " + toplam.ToString();
-
+            lblGNO.Text = "GNO: " + toplam;
         }
 
+        private void btnDersHesapla_Click(object sender, EventArgs e)
+        {
+            if (secilenDers != null)
+            {
+                if (cmbAraSinav.SelectedIndex == 0 || cmbFinal.SelectedIndex == 0)
+                {
+                    MessageBox.Show("Lütfen arasýnav/finali seçiniz");
+                    return;
+                }
+                secilenDers.Vize = Convert.ToUInt32(cmbAraSinav.SelectedItem);
+                secilenDers.Final = Convert.ToUInt32(cmbFinal.SelectedItem);
+                HarfNotunuAta(secilenDers);
+                DersleriGetir();
+            }
+            else
+                MessageBox.Show("Lütfen ders seçiniz");
+        }
     }
 }
